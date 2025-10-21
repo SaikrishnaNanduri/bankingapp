@@ -1,8 +1,10 @@
 package net.javaguides.banking.controller;
 
 
+import io.swagger.v3.oas.annotations.Operation;
 import net.javaguides.banking.dto.AccountDto;
 import net.javaguides.banking.service.AccountService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,12 +16,9 @@ import java.util.Map;
 @RequestMapping("/api/accounts")
 public class AccountController {
 
-
+    @Autowired
     private AccountService accountService;
 
-    public AccountController(AccountService accountService) {
-        this.accountService = accountService;
-    }
 
     // Add account REST API
     @PostMapping
@@ -43,6 +42,10 @@ public class AccountController {
     }
 
     //WithDraw RESTAPI
+    @Operation(
+            summary = "Withdraw amount from account",
+            description = "Withdraws the specified amount from the account with given ID"
+    )
     @PutMapping("/{id}/withdraw")
     public  ResponseEntity<AccountDto>withdraw(@PathVariable Long id,@RequestBody Map<String,Double>request){
         Double amount =request.get("amount");
